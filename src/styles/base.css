@@ -1,0 +1,205 @@
+/*
+ * The Living Letter — foundations.
+ * Two materials: NIGHT (the universe a letter becomes) and PAPER (what you
+ * write on, and what a letter arrives in). One accent, borrowed from whatever
+ * palette is on screen.
+ */
+
+:root {
+  --font-serif: 'Fraunces Variable', 'Iowan Old Style', 'Palatino Linotype', Palatino, Georgia, serif;
+  --font-sans: 'Hanken Grotesk Variable', 'Segoe UI', system-ui, -apple-system, 'Helvetica Neue', Arial, sans-serif;
+  --font-hand: 'Caveat Variable', 'Segoe Print', 'Bradley Hand', 'Snell Roundhand', cursive;
+
+  --night: #07090f;
+  --night-ink: #f6f1e7;
+  --night-ink-soft: rgba(246, 241, 231, 0.78);
+  --night-line: rgba(246, 241, 231, 0.2);
+
+  --paper: #f4ede0;
+  --paper-deep: #e9dfcd;
+  --paper-ink: #17130f;
+  --paper-ink-soft: #4a4239;
+  --paper-ink-faint: #6c6256;
+  --paper-line: rgba(23, 19, 15, 0.16);
+  --danger: #a3321f;
+
+  /* Palette defaults; every view overrides these inline. */
+  --sky-0: #0b0e24;
+  --sky-1: #191b40;
+  --sky-2: #2b2854;
+  --haze-a: rgba(79, 85, 196, 0.42);
+  --haze-b: rgba(154, 127, 209, 0.34);
+  --haze-c: rgba(46, 95, 168, 0.3);
+  --letter-ink: #f4f1ff;
+  --accent: #c3b8ff;
+  --accent-soft: rgba(195, 184, 255, 0.22);
+
+  --ease: cubic-bezier(0.22, 1, 0.36, 1);
+  --gutter: clamp(1.1rem, 4vw, 2.5rem);
+
+  /* Fibres in the paper: an inline SVG turbulence, so there is no image to load. */
+  --paper-grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .25 0 0 0 0 .18 0 0 0 0 .1 0 0 0 .55 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.38'/%3E%3C/svg%3E");
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  background: var(--night);
+  color: var(--night-ink);
+  color-scheme: dark;
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  min-height: 100svh;
+  font-family: var(--font-sans);
+  font-size: 1rem;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-wrap: break-word;
+}
+
+h1,
+h2,
+h3,
+p,
+figure,
+fieldset,
+ol,
+ul {
+  margin: 0;
+  padding: 0;
+}
+
+fieldset {
+  border: 0;
+  min-width: 0;
+}
+
+legend {
+  padding: 0;
+}
+
+ol,
+ul {
+  list-style: none;
+}
+
+button,
+input,
+textarea {
+  font: inherit;
+  color: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+a {
+  color: inherit;
+}
+
+img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+main:focus,
+article:focus {
+  outline: none;
+}
+
+/* One focus treatment everywhere: a solid ring that reads on night and on paper. */
+:focus-visible {
+  outline: 2px solid var(--focus, var(--accent));
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+::selection {
+  background: var(--accent);
+  color: #14110d;
+}
+
+.visually-hidden {
+  position: absolute !important;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
+
+.skip-link {
+  position: fixed;
+  top: 0.75rem;
+  left: 0.75rem;
+  z-index: 100;
+  padding: 0.6rem 1rem;
+  border: 0;
+  border-radius: 6px;
+  background: var(--paper);
+  color: var(--paper-ink);
+  font-weight: 600;
+  transform: translateY(-200%);
+}
+
+.skip-link:focus-visible {
+  transform: none;
+  outline-color: var(--paper-ink);
+}
+
+.icon {
+  flex: none;
+}
+
+.eyebrow {
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--night-ink-soft);
+}
+
+/* Paper: light surfaces carry their own colour scheme and focus colour. */
+.paper {
+  background-color: var(--paper);
+  background-image: var(--paper-grain);
+  color: var(--paper-ink);
+  color-scheme: light;
+  --focus: var(--paper-ink);
+}
+
+/* Motion off: the interface holds still too. */
+:root[data-motion='still'] *,
+:root[data-motion='still'] *::before,
+:root[data-motion='still'] *::after {
+  animation-duration: 0.01ms !important;
+  animation-delay: 0ms !important;
+  animation-iteration-count: 1 !important;
+  transition-duration: 0.01ms !important;
+  scroll-behavior: auto !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root:not([data-motion='live']) *,
+  :root:not([data-motion='live']) *::before,
+  :root:not([data-motion='live']) *::after {
+    animation-duration: 0.01ms !important;
+    animation-delay: 0ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}

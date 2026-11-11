@@ -1,0 +1,208 @@
+/*
+ * The recipient's view. A letter arrives sealed, on paper; opening it lets the
+ * universe in.
+ */
+
+.experience {
+  background: var(--night);
+}
+
+.experience__stage {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  min-height: 100svh;
+  overflow: hidden;
+  isolation: isolate;
+}
+
+.experience__stage > .universe {
+  z-index: -1;
+  transition: opacity 2200ms var(--ease);
+}
+
+/* Before the letter is opened the scene waits, dimmed, behind the envelope. */
+.experience[data-phase='sealed'] .experience__stage > .universe {
+  opacity: 0.4;
+}
+
+.experience__main {
+  flex: 1;
+  display: grid;
+  place-items: center;
+  padding: 1rem var(--gutter);
+}
+
+.experience__letter {
+  width: 100%;
+  padding-block: 0.5rem;
+}
+
+.experience__foot {
+  position: relative;
+  z-index: 2;
+  display: grid;
+  align-content: end;
+  justify-items: center;
+  min-height: 6.5rem;
+  padding: 0 var(--gutter) calc(clamp(1rem, 3vh, 2rem) + env(safe-area-inset-bottom, 0px));
+}
+
+.experience__foot .text-button {
+  color: var(--night-ink-soft);
+}
+
+.experience__after {
+  display: grid;
+  justify-items: center;
+  gap: 0.7rem;
+  animation: fade-in 1500ms var(--ease) 250ms both;
+}
+
+.experience__made {
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--night-ink-soft);
+}
+
+.experience__actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.experience__after .sponsor {
+  margin-top: 0.4rem;
+  color: var(--night-ink-soft);
+}
+
+/* ───────── Envelope ───────── */
+
+.envelope {
+  position: relative;
+  display: grid;
+  justify-items: center;
+  gap: 1rem;
+  width: min(100%, 25.5rem);
+  padding: 2.5rem 1.75rem 1.6rem;
+  border-radius: 5px;
+  text-align: center;
+  background-color: var(--paper);
+  background-image: var(--paper-grain);
+  color: var(--paper-ink);
+  color-scheme: light;
+  --focus: var(--paper-ink);
+  --paper-edge: rgba(23, 19, 15, 0.5);
+  box-shadow:
+    0 44px 100px -30px rgba(0, 0, 0, 0.85),
+    inset 0 1px 0 rgba(255, 255, 255, 0.7);
+  animation: envelope-in 1000ms var(--ease) both;
+  overflow: hidden;
+}
+
+/* The flap: two folds meeting under the seal. */
+.envelope::before,
+.envelope::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  width: 50%;
+  height: 3.45rem;
+  pointer-events: none;
+}
+
+.envelope::before {
+  left: 0;
+  background: linear-gradient(to bottom right, transparent calc(50% - 0.6px), var(--paper-line) 50%, transparent calc(50% + 0.6px));
+}
+
+.envelope::after {
+  right: 0;
+  background: linear-gradient(to bottom left, transparent calc(50% - 0.6px), var(--paper-line) 50%, transparent calc(50% + 0.6px));
+}
+
+.envelope .mark {
+  position: relative;
+  z-index: 1;
+  box-sizing: content-box;
+  padding: 0.55rem;
+  border-radius: 50%;
+  background: var(--paper-ink);
+  color: var(--paper);
+  box-shadow: 0 6px 14px -6px rgba(23, 19, 15, 0.7);
+}
+
+.envelope__title {
+  max-width: 100%;
+  margin-top: 0.3rem;
+  font-family: var(--font-serif);
+  font-size: clamp(1.85rem, 1.35rem + 2.2vw, 2.6rem);
+  font-weight: 370;
+  line-height: 1.08;
+  letter-spacing: -0.022em;
+  text-wrap: balance;
+  overflow-wrap: anywhere;
+}
+
+.envelope__from {
+  max-width: 100%;
+  margin-top: -0.55rem;
+  font-family: var(--font-serif);
+  font-size: 1.18rem;
+  font-style: italic;
+  color: var(--paper-ink-soft);
+  overflow-wrap: anywhere;
+}
+
+.envelope .button {
+  margin-top: 0.5rem;
+}
+
+.envelope__hint {
+  font-size: 0.84rem;
+  color: var(--paper-ink-faint);
+}
+
+.envelope__body {
+  line-height: 1.55;
+  color: var(--paper-ink-soft);
+}
+
+.envelope__actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.55rem;
+}
+
+.envelope__actions .button {
+  margin-top: 0;
+}
+
+@keyframes envelope-in {
+  from {
+    opacity: 0;
+    transform: translateY(18px) scale(0.975);
+  }
+}
+
+/* ───────── Preview bar (writer previewing their own letter) ───────── */
+
+.preview-bar {
+  position: relative;
+  z-index: 3;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem 1rem;
+  padding: 0.5rem var(--gutter);
+  border-block: 1px solid var(--night-line);
+  background: rgba(7, 9, 15, 0.62);
+  font-size: 0.9rem;
+  color: var(--night-ink-soft);
+}

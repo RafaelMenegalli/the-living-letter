@@ -1,0 +1,332 @@
+/*
+ * Landing — composed like a film poster: the artwork holds the upper frame,
+ * and the title block sits in the lower third.
+ */
+
+.hero {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  min-height: 100svh;
+  overflow: hidden;
+  isolation: isolate;
+}
+
+.hero > .universe {
+  z-index: -2;
+}
+
+/* A shade rising from the bottom edge, so the title block reads over any scene. */
+.hero::after {
+  content: '';
+  position: absolute;
+  inset: auto 0 0;
+  z-index: -1;
+  height: 58%;
+  background: linear-gradient(to top, rgba(4, 5, 10, 0.78), rgba(4, 5, 10, 0.42) 45%, transparent);
+  pointer-events: none;
+}
+
+/* Wide screens: the title sits in the lower-left corner, so that is where the shade gathers,
+   leaving the rest of the scene its light. */
+@media (min-width: 52.01rem) {
+  .hero::after {
+    height: 72%;
+    background:
+      radial-gradient(90% 100% at 0% 100%, rgba(4, 5, 10, 0.86), rgba(4, 5, 10, 0.5) 40%, transparent 72%),
+      linear-gradient(to top, rgba(4, 5, 10, 0.5), transparent 36%);
+  }
+}
+
+.hero__letter {
+  flex: 1;
+  display: grid;
+  align-content: center;
+  justify-items: center;
+  gap: clamp(0.9rem, 2.4vh, 1.5rem);
+  padding: 0.5rem var(--gutter) 1.5rem;
+}
+
+.hero__letter .eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.7rem;
+}
+
+.hero__letter .eyebrow::before,
+.hero__letter .eyebrow::after {
+  content: '';
+  width: 1.6rem;
+  height: 1px;
+  background: currentColor;
+  opacity: 0.6;
+}
+
+.hero__hint {
+  font-family: var(--font-serif);
+  font-size: 0.95rem;
+  font-style: italic;
+  color: var(--night-ink-soft);
+  text-shadow: 0 1px 14px rgba(0, 0, 0, 0.6);
+  animation: fade-in 1200ms var(--ease) 3200ms both;
+}
+
+.hero__foot {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: end;
+  gap: 1.5rem 3rem;
+  padding: 0 var(--gutter) clamp(1.3rem, 4vh, 2.75rem);
+}
+
+.hero__title {
+  max-width: 15ch;
+  font-family: var(--font-serif);
+  font-size: clamp(2.05rem, 1.15rem + 3.6vw, 4.2rem);
+  font-weight: 370;
+  line-height: 1.02;
+  letter-spacing: -0.03em;
+  text-wrap: balance;
+}
+
+.hero__lede {
+  max-width: 38ch;
+  margin-top: clamp(0.7rem, 1.6vh, 1.1rem);
+  font-size: clamp(1rem, 0.94rem + 0.3vw, 1.16rem);
+  line-height: 1.5;
+  color: var(--night-ink-soft);
+  text-wrap: pretty;
+}
+
+.hero__actions {
+  display: grid;
+  justify-items: end;
+  gap: 0.9rem;
+}
+
+.hero__note {
+  font-size: 0.82rem;
+  color: var(--night-ink-soft);
+}
+
+.chips {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.4rem;
+}
+
+.chip {
+  cursor: pointer;
+}
+
+.chip__body {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  min-height: 2.6rem;
+  padding: 0.35rem 0.9rem;
+  border: 1px solid var(--night-line);
+  border-radius: 999px;
+  background: rgba(7, 9, 15, 0.5);
+  font-size: 0.86rem;
+  font-weight: 500;
+  transition:
+    background-color 200ms,
+    color 200ms,
+    border-color 200ms;
+}
+
+.chip__dot {
+  width: 0.55rem;
+  height: 0.55rem;
+  border-radius: 50%;
+  background: var(--accent);
+  box-shadow: 0 0 10px var(--accent);
+}
+
+.chip:hover .chip__body {
+  border-color: rgba(246, 241, 231, 0.6);
+}
+
+.chip input:checked + .chip__body {
+  border-color: var(--night-ink);
+  background: var(--night-ink);
+  color: var(--night);
+  font-weight: 700;
+}
+
+.chip input:checked + .chip__body .chip__dot {
+  box-shadow: none;
+  background: var(--night);
+}
+
+.chip input:focus-visible + .chip__body {
+  outline: 2px solid var(--night-ink);
+  outline-offset: 3px;
+}
+
+/* ───────── Below the fold: a sheet of paper ───────── */
+
+.about {
+  position: relative;
+  padding: clamp(3.5rem, 9vw, 7rem) var(--gutter) clamp(3rem, 8vw, 6rem);
+  box-shadow: 0 -24px 60px rgba(0, 0, 0, 0.5);
+}
+
+.about__grid,
+.closing,
+.about > .sponsor {
+  max-width: 68rem;
+  margin-inline: auto;
+}
+
+.about__grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
+  gap: 3rem clamp(2rem, 7vw, 6.5rem);
+}
+
+.about__heading {
+  margin-bottom: 1.6rem;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--paper-ink-soft);
+}
+
+.steps {
+  display: grid;
+  gap: 1.9rem;
+}
+
+.steps__item {
+  display: grid;
+  grid-template-columns: 2.4rem minmax(0, 1fr);
+  gap: 0.9rem;
+  align-items: start;
+}
+
+.steps__number {
+  font-family: var(--font-serif);
+  font-size: 2.7rem;
+  font-style: italic;
+  font-weight: 300;
+  line-height: 0.92;
+  color: var(--paper-ink-faint);
+}
+
+.steps__title {
+  margin-bottom: 0.35rem;
+  font-family: var(--font-serif);
+  font-size: 1.75rem;
+  font-weight: 400;
+  line-height: 1.1;
+  letter-spacing: -0.018em;
+}
+
+.steps__item p {
+  max-width: 42ch;
+  color: var(--paper-ink-soft);
+}
+
+.notes {
+  display: grid;
+  gap: 1.2rem;
+}
+
+.notes li {
+  padding-left: 1.1rem;
+  border-left: 1px solid var(--paper-edge);
+  font-family: var(--font-serif);
+  font-size: 1.1rem;
+  line-height: 1.5;
+  color: var(--paper-ink-soft);
+}
+
+.about > .sponsor {
+  margin-top: clamp(2.5rem, 6vw, 4rem);
+  color: var(--paper-ink-soft);
+}
+
+.closing {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem 2rem;
+  margin-top: clamp(3rem, 8vw, 5.5rem);
+  padding-top: clamp(2.25rem, 6vw, 4rem);
+  border-top: 1px solid var(--paper-line);
+}
+
+.closing__title {
+  max-width: 17ch;
+  font-family: var(--font-serif);
+  font-size: clamp(1.9rem, 1.2rem + 2.8vw, 3.3rem);
+  font-style: italic;
+  font-weight: 370;
+  line-height: 1.06;
+  letter-spacing: -0.022em;
+  text-wrap: balance;
+}
+
+.site-footer {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.25rem 1.5rem;
+  padding: 1rem var(--gutter) 1.5rem;
+  font-size: 0.88rem;
+  color: var(--night-ink-soft);
+}
+
+@media (max-width: 52rem) {
+  .hero__foot {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 1.1rem;
+  }
+
+  .hero__title {
+    max-width: none;
+  }
+
+  .hero__actions {
+    justify-items: stretch;
+  }
+
+  .chips {
+    flex-wrap: wrap;
+    justify-content: flex-start;
+  }
+
+  .hero__note {
+    text-align: center;
+  }
+
+  .about__grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+@media (max-width: 26rem) {
+  .chip__body {
+    min-height: 2.5rem;
+    padding: 0.3rem 0.72rem;
+    font-size: 0.8rem;
+  }
+
+  .chip__dot {
+    display: none;
+  }
+}
+
+/* Short screens: keep the call to action above the fold. */
+@media (max-height: 40rem) {
+  .hero__lede,
+  .hero__hint {
+    display: none;
+  }
+}

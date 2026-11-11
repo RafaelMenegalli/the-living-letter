@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>The Living Letter — turn a few words into a living universe</title>
+    <meta
+      name="description"
+      content="Write a short message, choose its atmosphere, and send it as a link that opens into a living, interactive scene. Free, no account."
+    />
+    <meta name="theme-color" content="#07090f" />
+
+    <!--
+      Generic social metadata. A static site cannot produce a different preview
+      for every letter (the letter lives in the URL fragment, which is never
+      sent to a server), so these describe the site itself. Absolute URLs
+      (canonical, og:url, og:image) are added at build time when VITE_SITE_URL
+      is set. See the README.
+    -->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="The Living Letter" />
+    <meta property="og:title" content="The Living Letter" />
+    <meta property="og:description" content="Turn a few words into a living universe, and send it with a link." />
+    <meta name="twitter:title" content="The Living Letter" />
+    <meta name="twitter:description" content="Turn a few words into a living universe, and send it with a link." />
+
+    <link rel="icon" href="./favicon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="./apple-touch-icon.png" />
+    <link rel="manifest" href="./site.webmanifest" />
+
+    <style>
+      /* First paint, before the stylesheet arrives: night, not a white flash. */
+      html {
+        background: #07090f;
+        color: #f6f1e7;
+      }
+      .noscript {
+        max-width: 34rem;
+        margin: 18vh auto;
+        padding: 0 1.5rem;
+        font: 1.05rem/1.6 Georgia, 'Times New Roman', serif;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="root"></div>
+    <noscript>
+      <div class="noscript">
+        <h1>The Living Letter</h1>
+        <p>
+          The Living Letter turns a short message into a moving, generative scene and shares it as a link. The scene is drawn
+          by your browser, so this page needs JavaScript to work. Please enable it and reload.
+        </p>
+        <p lang="pt-BR">
+          O Living Letter transforma uma mensagem curta em uma cena generativa em movimento e a compartilha por um link. A cena
+          é desenhada pelo seu navegador, por isso esta página precisa de JavaScript. Ative-o e recarregue.
+        </p>
+      </div>
+    </noscript>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>
