@@ -113,6 +113,14 @@ npm run build
 
 Upload the contents of `dist/` to any static host (Netlify, Vercel, Cloudflare Pages, GitHub Pages, S3, a plain web server). No server-side configuration is needed. Asset paths are relative, so `https://you.example/` and `https://you.example/letters/` both work unchanged.
 
+### GitHub Pages, automatically
+
+The repository includes a workflow, `.github/workflows/deploy.yml`, that publishes the site to GitHub Pages on every push to `main`. It installs dependencies, runs lint and tests, builds, and deploys; nothing is published if lint or tests fail.
+
+It needs one setting, once: on GitHub, open **Settings → Pages** and, under **Build and deployment**, set **Source** to **GitHub Actions**. After that, push to `main` or start the workflow by hand from the **Actions** tab. The site is served at `https://<user>.github.io/<repository>/`.
+
+The workflow hands the Pages address to the build as `VITE_SITE_URL`, so the metadata described below is filled in without further configuration, and stays correct if a custom domain is added.
+
 ### Site URL for metadata
 
 Social scrapers need absolute URLs, and a static build cannot know where it will be hosted. Set `VITE_SITE_URL` at build time and the build adds a canonical link, `og:url`, and `og:image` / `twitter:image` pointing at the bundled `og.jpg`:

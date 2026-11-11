@@ -1,0 +1,74 @@
+# Builds the site and publishes it to GitHub Pages on every push to main.
+#
+# One-time setup in the repository: Settings → Pages → Build and deployment →
+# Source: "GitHub Actions". Until that is selected, the "Configure Pages" step fails.
+#
+# Nothing is deployed unless lint and tests pass.
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches: [main]
+  # Lets you run it by hand from the Actions tab.
+  workflow_dispatch:
+
+# The minimum the Pages deployment needs.
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# One deployment at a time; a run in progress is allowed to finish.
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out
+        uses: actions/checkout@v7
+
+      - name: Set up Node
+        uses: actions/setup-node@v7
+        with:
+          node-version: 24
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Test
+        run: npm test
+
+      - name: Configure Pages
+        id: pages
+        uses: actions/configure-pages@v6
+
+      # VITE_SITE_URL gives the build its real public address, so the canonical
+      # link and social-preview tags are absolute. It comes from Pages itself,
+      # which also keeps it right if a custom domain is added later.
+      - name: Build
+        run: npm run build
+        env:
+          VITE_SITE_URL: ${{ steps.pages.outputs.base_url }}
+
+      - name: Upload site
+        uses: actions/upload-pages-artifact@v5
+        with:
+          path: dist
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy
+        id: deployment
+        uses: actions/deploy-pages@v5
